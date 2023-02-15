@@ -1,6 +1,7 @@
-import LanguagesButton from '@/components/languages-button';
+import Login from '@/components/login'
 import ThemeButton from '@/components/theme-button';
-import { HStack } from '@chakra-ui/react';
+import { Stack, HStack } from '@chakra-ui/react';
+import Logo from '../logo-button';
 
 const Header = () => {
   return (
@@ -14,8 +15,17 @@ const Header = () => {
       align='center'
       w='100%'
     >
-      <ThemeButton />
-      <LanguagesButton />
+      <Logo />
+      
+      <Stack
+        flex={{ base: 1, md: 0 }}
+        justify={'flex-end'}
+        direction={'row'}
+        spacing={6}
+      >
+        <Login />
+        <ThemeButton />
+      </Stack>
     </HStack>
   );
 };

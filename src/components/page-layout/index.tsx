@@ -36,23 +36,23 @@ const PageLayout = ({ title, description, children }: PageProps) => {
   return (
     <>
       <NextSeo
-        title={title + ' | Starter Kit'}
+        title={title + ' | LastWord'}
         description={description}
         twitter={{
           cardType: 'summary_large_image',
-          handle: '@hakkaofdev',
+          handle: '@DaKeiser',
         }}
         openGraph={{
-          url: 'https://www.hakkaofdev.fr',
-          title: title + ' | Starter Kit',
+          url: 'https://www.lastword.com',
+          title: title + ' | LastWord',
           description: description,
           locale: 'en_US',
           images: [
             {
-              url: 'https://www.hakkaofdev.fr/assets/images/social.png',
+              url: 'https://cdn-icons-png.flaticon.com/512/1183/1183815.png',
               width: 1200,
               height: 630,
-              alt: 'Alexandre Gossard',
+              alt: 'LastWord',
               type: 'image/png',
             },
           ],
@@ -60,7 +60,7 @@ const PageLayout = ({ title, description, children }: PageProps) => {
         additionalLinkTags={[
           {
             rel: 'icon',
-            href: 'https://www.hakkaofdev.fr/favicon.ico',
+            href: '/assets/favicon.ico',
           },
         ]}
       />

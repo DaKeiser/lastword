@@ -37,7 +37,7 @@ const IndexPage = () => {
       description='Discover a starter kit which includes Next.js, Chakra-UI, Framer-Motion in Typescript. You have few components, Internationalization, SEO and more in this template ! Enjoy coding.'
     >
       <Stack
-        spacing={4}
+        spacing={"10%"}
         py={12}
         align='center'
         h='100vh'
@@ -50,7 +50,7 @@ const IndexPage = () => {
           w={{ base: '100%', md: '50%' }}
           py={{ base: 20, md: 0 }}
         >
-          <Heading as='h1'>Alexandre GOSSARD</Heading>
+          <Heading as='h1'>LastWord</Heading>
           <Divider />
 
           <Text color='gray.500' align='justify'>
@@ -93,8 +93,8 @@ const IndexPage = () => {
         </VStack>
         <Center w={{ base: '100%', md: '50%' }}>
           <CustomImage
-            src='/assets/images/home.jpg'
-            width={300}
+            src='/assets/images/hero.png'
+            width={500}
             height={500}
             alt='Cover Image'
           />

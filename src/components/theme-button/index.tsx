@@ -47,7 +47,7 @@ const ThemeButton = () => {
     <AnimatePresence mode='wait'>
       <MotionIconButton
         aria-label='Toggle color mode'
-        size='lg'
+        size='md'
         key={mode('light', 'dark')}
         initial='initial'
         animate='enter'
