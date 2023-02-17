@@ -1,18 +1,68 @@
-import { ColorModeScript } from '@chakra-ui/react';
 import React, { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
+import {
+  ColorModeScript,
+  ColorModeProvider,
+  ChakraProvider,
+  useColorMode
+} from '@chakra-ui/react';
+import customTheme from './styles/theme'
+import { Global, css } from '@emotion/react'
+// import WebFont from 'webfontloader';
 
-const container = document.getElementById('root');
-const root = ReactDOM.createRoot(container);
+// Might want to use Josephin Sans
+const GlobalStyle = ({ children }) => {
+  const { colorMode } = useColorMode()
 
-root.render(
+  return (
+    <>
+      <Global
+        styles={css`
+          ::selection {
+            background-color: #90CDF4;
+            color: #fefefe;
+          }
+          ::-moz-selection {
+            background: #ffb7b7;
+            color: #fefefe;
+          }
+          html {
+            min-width: 356px;
+            scroll-behavior: smooth;
+          }
+          #root {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: ${colorMode === 'light' ? 'white' : '#171717'};
+          }
+        `}
+      />
+      {children}
+    </>
+  )
+}
+
+ReactDOM.render(
   <StrictMode>
-    <ColorModeScript />
-    <App />
-  </StrictMode>
+    <ChakraProvider resetCSS theme={customTheme}>
+      <ColorModeProvider
+        options={{
+          initialColorMode: "light",
+          useSystemColorMode: false,
+        }}
+      >
+        <ColorModeScript />
+        <GlobalStyle>
+          <App />
+        </GlobalStyle>
+      </ColorModeProvider>
+    </ChakraProvider>
+  </StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
