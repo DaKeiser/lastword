@@ -13,7 +13,7 @@ import { secondaryTextColor, linkColor } from '../styles/darkMode';
 
 const Copyright = (props) => (
     <Text fontSize="sm" {...props}>
-        &copy; {new Date().getFullYear()} dClip. All rights reserved.
+        &copy; {new Date().getFullYear()} LastWord. All rights reserved.
     </Text>
 )
 
