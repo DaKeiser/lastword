@@ -33,7 +33,7 @@ import {
 
 import Container from '../components/Container'
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { FaCloudUploadAlt } from 'react-icons/fa';
+import { FaCloudUploadAlt, FaFile } from 'react-icons/fa';
 import React, { useState, useEffect, useRef } from 'react';
 
 import { Step, Steps, useSteps } from "chakra-ui-steps"
@@ -53,18 +53,9 @@ export default function TransferFiles() {
         initialStep: 0,
     })
 
-    const [pensionOption, setPensionOption] = useState("once");
     const [recipients, setRecipients] = useState([
         { walletAddress: "", emailAddress: "", percent: "" }
     ]);
-
-    useEffect(() => {
-
-    }, [recipients]);
-
-    const handlePensionOptionChange = (value) => {
-        setPensionOption(value);
-    };
 
     const handleRecipientChange = (index, field, value) => {
         const newRecipients = [...recipients];
@@ -83,6 +74,7 @@ export default function TransferFiles() {
     };
 
     const [isDragging, setIsDragging] = useState(false);
+    const [droppedFiles, setDroppedFiles] = useState([]);
     const inputRef = useRef(null);
     const bgColor = useColorModeValue("white", "gray.700");
 
@@ -99,8 +91,8 @@ export default function TransferFiles() {
     const handleDrop = (e) => {
         e.preventDefault();
         setIsDragging(false);
-        const files = Array.from(e.dataTransfer.files);
-        console.log(files); // do something with the dropped files
+        const files = e.dataTransfer.files;
+        setDroppedFiles([...droppedFiles, ...Array.from(files)]);
     };
 
     const handleClick = () => {
@@ -108,10 +100,9 @@ export default function TransferFiles() {
     };
 
     const handleInputChange = (e) => {
-        const files = Array.from(e.target.files);
-        console.log(files); // do something with the selected files
+        const files = e.target.files;
+        setDroppedFiles([...droppedFiles, ...Array.from(files)]);
     };
-
 
     return (
         <Container>
@@ -181,13 +172,29 @@ export default function TransferFiles() {
                                                         ref={inputRef}
                                                         style={{ display: "none" }}
                                                         onChange={handleInputChange}
+                                                        multiple
                                                     />
-                                                    <Center>
-                                                        <Icon as={FaCloudUploadAlt} w={8} h={8} />
-                                                        <Text ml={2} fontWeight="medium">
-                                                            {isDragging ? "Drop files here" : "Drag and drop files here or click to upload"}
-                                                        </Text>
-                                                    </Center>
+                                                    {droppedFiles.length > 0 ? (
+                                                        <HStack spacing={4}>
+                                                            {droppedFiles.map((file, index) => (
+                                                                <Box key={index} textAlign="center">
+                                                                    <Icon as={FaFile} w={8} h={8} mb={2} />
+                                                                    <Text fontSize="sm" fontWeight="medium">
+                                                                        {file.name}
+                                                                    </Text>
+                                                                </Box>
+                                                            ))}
+                                                        </HStack>
+                                                    ) : (
+                                                        <Center flexDirection="column">
+                                                            <Icon as={FaCloudUploadAlt} w={8} h={8} mb={4} />
+                                                            <Text fontWeight="medium">
+                                                                {isDragging
+                                                                    ? "Drop files here"
+                                                                    : "Drag and drop files here or click to upload"}
+                                                            </Text>
+                                                        </Center>
+                                                    )}
                                                 </Box>
                                             ) :
                                             (
