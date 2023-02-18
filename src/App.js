@@ -8,6 +8,7 @@ import Homepage from "./pages/Homepage"
 import PageNotFound from "./pages/PageNotFound";
 import Dashboard from "./pages/Dashboard";
 import TransferCoins from "./pages/TransferCoins";
+import TransferFiles from "./pages/TransferFiles";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home" element={< Homepage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/coins" element={<TransferCoins />} />
+        <Route path="/files" element={<TransferFiles />} />
 
       </Routes>
     </BrowserRouter>

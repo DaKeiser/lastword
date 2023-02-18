@@ -18,6 +18,9 @@ import {
     NumberInputStepper,
     Radio,
     RadioGroup,
+    useColorModeValue,
+    Center,
+    Icon,
     IconButton,
     Text,
     Table,
@@ -30,15 +33,16 @@ import {
 
 import Container from '../components/Container'
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import React, { useState, useEffect } from 'react';
+import { FaCloudUploadAlt } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { Step, Steps, useSteps } from "chakra-ui-steps"
 
-const steps = [{ label: "Add Recipients" }, { label: "Verify" }]
+const steps = [{ label: "Upload" }, { label: "Add Recipients" }, { label: "Verify" }]
 
-export default function TransferCoins() {
+export default function TransferFiles() {
     useEffect(() => {
-        document.title = "Transfer Coins | LastWord";
+        document.title = "Transfer Files | LastWord";
         const metaDescription = document.createElement('meta');
         metaDescription.name = 'description';
         metaDescription.content = 'Your voice beyond life.';
@@ -53,6 +57,7 @@ export default function TransferCoins() {
     const [recipients, setRecipients] = useState([
         { walletAddress: "", emailAddress: "", percent: "" }
     ]);
+
     useEffect(() => {
 
     }, [recipients]);
@@ -77,12 +82,36 @@ export default function TransferCoins() {
         setRecipients(newRecipients);
     };
 
-    const handlePercentChange = (index, value) => {
-        const updatedRecipients = [...recipients];
-        const recipientToUpdate = { ...updatedRecipients[index], percentage: value };
-        updatedRecipients[index] = recipientToUpdate;
-        setRecipients(updatedRecipients);
+    const [isDragging, setIsDragging] = useState(false);
+    const inputRef = useRef(null);
+    const bgColor = useColorModeValue("white", "gray.700");
+
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        setIsDragging(true);
     };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        setIsDragging(false);
+        const files = Array.from(e.dataTransfer.files);
+        console.log(files); // do something with the dropped files
+    };
+
+    const handleClick = () => {
+        inputRef.current.click();
+    };
+
+    const handleInputChange = (e) => {
+        const files = Array.from(e.target.files);
+        console.log(files); // do something with the selected files
+    };
+
 
     return (
         <Container>
@@ -98,23 +127,13 @@ export default function TransferCoins() {
                         <Steps activeStep={activeStep}>
                             {steps.map(({ label }, index) => (
                                 <Step label={label} key={label}>
-                                    {index === 0 ?
+                                    {index === 1 ?
                                         (
                                             <VStack spacing="12">
-                                                <FormControl as="fieldset">
-                                                    <FormLabel as="legend"><strong>Payment option</strong></FormLabel>
-                                                    <RadioGroup defaultValue={pensionOption} onChange={handlePensionOptionChange}>
-                                                        <HStack spacing="6">
-                                                            <Radio value="once">Pay at once</Radio>
-                                                            <Radio value="pension">Pay like a pension</Radio>
-                                                        </HStack>
-                                                    </RadioGroup>
-                                                </FormControl>
                                                 <VStack>
                                                     <HStack>
                                                         <FormControl w='22vw' ml='-2vw'><FormLabel><strong>Wallet Address</strong></FormLabel></FormControl>
                                                         <FormControl w='15vw'><FormLabel><strong>Email Address</strong></FormLabel></FormControl>
-                                                        <FormControl w='5vw'><FormLabel><strong>% Share</strong></FormLabel></FormControl>
                                                     </HStack>
                                                     {recipients.map((recipient, index) => (
                                                         <VStack key={index} spacing="4">
@@ -132,19 +151,8 @@ export default function TransferCoins() {
                                                                         value={recipient.emailAddress}
                                                                         onChange={(event) => handleRecipientChange(index, "emailAddress", event.target.value)}
                                                                         placeholder="example@example.com"
-                                                                        w='15vw'
+                                                                        w='20vw'
                                                                     />
-                                                                </FormControl>
-                                                                <FormControl>
-                                                                    <InputGroup w='5vw'>
-                                                                        <NumberInput value={recipient.percentage} max={100} min={0} onChange={(valueString) => handlePercentChange(index, valueString)}>
-                                                                            <NumberInputField />
-                                                                            <NumberInputStepper>
-                                                                                <NumberIncrementStepper />
-                                                                                <NumberDecrementStepper />
-                                                                            </NumberInputStepper>
-                                                                        </NumberInput>
-                                                                    </InputGroup>
                                                                 </FormControl>
                                                                 <IconButton icon={<DeleteIcon />} variant="ghost" onClick={() => handleRemoveRecipient(index)} />
                                                             </HStack>
@@ -153,27 +161,55 @@ export default function TransferCoins() {
                                                 </VStack>
                                                 <Button leftIcon={<AddIcon />} onClick={handleAddRecipient}>Add recipient</Button>
                                             </VStack >
-                                        ) :
-                                        (
-                                            <Table>
-                                                <Thead>
-                                                    <Tr>
-                                                        <Th>Wallet Address</Th>
-                                                        <Th>Email Address</Th>
-                                                        <Th>Percentage</Th>
-                                                    </Tr>
-                                                </Thead>
-                                                <Tbody>
-                                                    {recipients.map((recipient, index) => (
-                                                        <Tr key={index}>
-                                                            <Td>{recipient.walletAddress}</Td>
-                                                            <Td>{recipient.emailAddress}</Td>
-                                                            <Td>{recipient.percentage}</Td>
+                                        ) : index == 0 ?
+                                            (
+                                                <Box
+                                                    p={8}
+                                                    bg={isDragging ? "gray.200" : bgColor}
+                                                    border="2px dashed"
+                                                    borderColor={isDragging ? "gray.400" : "gray.200"}
+                                                    borderRadius="lg"
+                                                    onDragEnter={handleDragEnter}
+                                                    onDragOver={handleDragEnter}
+                                                    onDragLeave={handleDragLeave}
+                                                    onDrop={handleDrop}
+                                                    onClick={handleClick}
+                                                    cursor="pointer"
+                                                >
+                                                    <input
+                                                        type="file"
+                                                        ref={inputRef}
+                                                        style={{ display: "none" }}
+                                                        onChange={handleInputChange}
+                                                    />
+                                                    <Center>
+                                                        <Icon as={FaCloudUploadAlt} w={8} h={8} />
+                                                        <Text ml={2} fontWeight="medium">
+                                                            {isDragging ? "Drop files here" : "Drag and drop files here or click to upload"}
+                                                        </Text>
+                                                    </Center>
+                                                </Box>
+                                            ) :
+                                            (
+                                                <Table>
+                                                    <Thead>
+                                                        <Tr>
+                                                            <Th>Wallet Address</Th>
+                                                            <Th>Email Address</Th>
                                                         </Tr>
-                                                    ))}
-                                                </Tbody>
-                                            </Table>
-                                        )}
+                                                    </Thead>
+                                                    <Tbody>
+                                                        {recipients.map((recipient, index) => (
+                                                            <Tr key={index}>
+                                                                <Td>{recipient.walletAddress}</Td>
+                                                                <Td>{recipient.emailAddress}</Td>
+                                                            </Tr>
+                                                        ))}
+                                                    </Tbody>
+                                                </Table>
+                                            )
+
+                                    }
                                 </Step>
                             ))}
                         </Steps>
