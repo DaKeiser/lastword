@@ -9,6 +9,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Dashboard from "./pages/Dashboard";
 import TransferCoins from "./pages/TransferCoins";
 import TransferFiles from "./pages/TransferFiles";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/coins" element={<TransferCoins />} />
         <Route path="/files" element={<TransferFiles />} />
-
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
