@@ -85,7 +85,7 @@ export default function PageNotFound() {
                         </Text>
                     </Heading>
                     <Text fontSize='xl' color={secondaryTextColor[colorMode]}>
-                        Oops looks like we couldn't find the page you are looking for.
+                        Oops looks like we couldn't find the page you are looking for. Try login
                     </Text>
                 </Stack>
             </Stack>
