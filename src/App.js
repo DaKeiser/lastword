@@ -20,19 +20,11 @@ function App() {
         <Route path="*" element={< PageNotFound />} />
         <Route path="/" element={< Homepage />} />
         <Route path="/home" element={< Homepage />} />
-        {auth.isLoggedIn ? 
-        <>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/coins" element={<TransferCoins />} />
         <Route path="/files" element={<TransferFiles />} />
         <Route path="/profile" element={<Profile />} />
-        </>
-        :
-        <>
-                <Route path="*" element={< PageNotFound />} />
 
-        </>
-        }
       </Routes>
     </BrowserRouter>
   );
