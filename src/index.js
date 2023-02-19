@@ -12,7 +12,8 @@ import {
 import customTheme from './styles/theme'
 import { Global, css } from '@emotion/react'
 // import WebFont from 'webfontloader';
-
+import { AuthProvider } from "@arcana/auth";
+import { ProvideAuth } from "@arcana/auth-react";
 // Might want to use Josephin Sans
 const GlobalStyle = ({ children }) => {
   const { colorMode } = useColorMode()
@@ -45,6 +46,7 @@ const GlobalStyle = ({ children }) => {
     </>
   )
 }
+const provider = new AuthProvider("37ba389e2ee14ca3b5c8284efd77161a44c0946f") // required
 
 ReactDOM.render(
   <StrictMode>
@@ -57,7 +59,11 @@ ReactDOM.render(
       >
         <ColorModeScript />
         <GlobalStyle>
+        <ProvideAuth provider={provider}>
+
           <App />
+          </ProvideAuth>
+
         </GlobalStyle>
       </ColorModeProvider>
     </ChakraProvider>
