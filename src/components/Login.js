@@ -11,21 +11,33 @@ import {
 } from '@chakra-ui/react';
 import { Auth, useAuth } from "@arcana/auth-react";
 import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const onLogin = () => {
-    // Route to authenticated page
-    redirect("/dashboard");
-  }
+
 const Login = () => {
 
     const { colorMode } = useColorMode();
     const auth = useAuth();
+    const navigate = useNavigate();
+    const onLogin = () => {
+        // Route to authenticated page
+        console.log("rrrrrrrrwwrrrrrrrrrr")    
+        navigate("/dashboard");
+      }
+    useEffect(() => {
+      console.log("!!!!!!!!!!!!!!!!!!",auth);
+    
+    }, [auth])
+    const truncateAddress = (address) => {
+        return address.length>10 ? address.slice(0, 6) + "..." + address.slice(-4): address;
+    };
+    
     return (
         <div>
           {auth.loading ? (
             <Spinner />
           ) : auth.isLoggedIn ? (
-            <p>auth.user</p>
+            <p>{truncateAddress(auth.user.address)}</p>
           ) : (
             <div>
                        <Menu>
